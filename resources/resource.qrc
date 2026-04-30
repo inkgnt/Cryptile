@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/icons/light">
+        <file alias="icon_add_light">icons/light/add_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_delete_light">icons/light/delete_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_export_light">icons/light/download_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_lock_light">icons/light/lock_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_search_light">icons/light/search_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_settings_light">icons/light/settings_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_import_light">icons/light/upload_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_show_light">icons/light/visibility_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_hide_light">icons/light/visibility_off_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+    </qresource>
+    <qresource prefix="/icons/dark">
+        <file alias="icon_add_dark">icons/dark/add_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_delete_dark">icons/dark/delete_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_export_dark">icons/dark/download_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_lock_dark">icons/dark/lock_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_search_dark">icons/dark/search_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_settings_dark">icons/dark/settings_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_import_dark">icons/dark/upload_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_show_dark">icons/dark/visibility_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="icon_hide_dark">icons/dark/visibility_off_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+    </qresource>
+</RCC>

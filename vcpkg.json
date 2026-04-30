@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "cryptpass",
+  "version-string": "0.1.0",
+  "dependencies": [
+    {
+      "name": "openssl",
+      "features": ["fips"]
+    }
+  ],
+  "builtin-baseline": "c7e374041bb8d343b62be1b49e319420dc80f4cb"
+}

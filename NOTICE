@@ -1,0 +1,23 @@
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+
+This product includes software developed by third parties. The following is a summary of the components, their origins, and their respective licenses.
+
+1. Qt
+- Description: Qt is a cross-platform application development framework.
+- Website: https://www.qt.io/
+- License: Qt is available under both commercial licenses and open source licenses. The open source version used in this project is licensed under the GNU Lesser General Public License (LGPL) version 3.
+- Notice: Portions of this product use Qt libraries subject to the terms of the LGPL v3. See https://www.gnu.org/licenses/lgpl-3.0.html for full details.
+
+2. OpenSSL
+- Description: OpenSSL is a robust, commercial-grade, full-featured toolkit for TLS and SSL protocols.
+- Website: https://www.openssl.org/
+- License: OpenSSL License (Apache-style) and SSLeay License
+- Notice: This product includes OpenSSL software. See https://www.openssl.org/source/license.html for license details and the full license text.
+
+3. SQLCipher
+- Description: SQLCipher is an open source extension to SQLite that provides transparent 256-bit AES encryption of database files.
+- Website: https://www.zetetic.net/sqlcipher/
+- License: SQLCipher is licensed under the BSD License.
+- Notice: This product includes SQLCipher software licensed under the BSD License. See https://www.zetetic.net/sqlcipher/license/ for details and the full license text.
+
+Disclaimer: You must comply with the license terms of each third-party component used in this product. This `NOTICE` file serves as a summary and disclosure mechanism as required by certain licenses (like Apache 2.0).
