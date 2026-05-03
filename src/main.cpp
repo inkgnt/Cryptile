@@ -1,16 +1,19 @@
+#include "root/root_view.h"
+
+#include <sodium.h>
 #include <QApplication>
-#include "mainapp.h"
-#include "databasemanager.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainApp w;
+    if ( sodium_init() == -1)
+        return EXIT_FAILURE;
 
-    w.show();
+    QApplication a(argc, argv);
+    RootView v;
+
+    v.show();
 
     int result = a.exec();
-    DatabaseManager::instance().closeDatabase();
 
     return result;
 }

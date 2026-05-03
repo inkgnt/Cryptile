@@ -6,7 +6,10 @@
     {
       "name": "openssl",
       "features": ["fips"]
+    },
+    {
+      "name": "libsodium"
     }
   ],
-  "builtin-baseline": "c7e374041bb8d343b62be1b49e319420dc80f4cb"
+  "builtin-baseline": "80f9bcfa455e875d9c1bf7a7c6692d7e1e481061"
 }
