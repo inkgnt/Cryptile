@@ -1,0 +1,37 @@
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+
+This product includes third-party software components.  
+Each component is distributed under its own license terms.
+
+1. Qt (Qt 6 Widgets module)
+Licensed under the GNU Lesser General Public License v3.0 (LGPLv3)
+https://www.qt.io/
+
+2. SQLCipher 
+SQLCipher Community Edition is licensed under a BSD-style license
+https://www.zetetic.net/sqlcipher/license/
+
+3. SQLite
+SQLite is in the public domain
+https://sqlite.org/copyright.html
+
+4. OpenSSL
+Licensed under the Apache License 2.0
+https://www.openssl.org/source/license.html
+
+5. libsodium
+Licensed under the ISC License
+https://libsodium.org/
+
+6. OpenSC
+Licensed under the GNU Lesser General Public License (LGPL-2.1-or-later)
+https://github.com/OpenSC/OpenSC
+
+7. vcpkg
+Licensed under the MIT License
+https://github.com/microsoft/vcpkg
+
+General notice
+
+All third-party components remain the property of their respective authors and are subject to their original licenses.  
+This NOTICE file is provided for attribution and compliance under the Apache License 2.0.
