@@ -1,94 +1,85 @@
-# CryptPass
+# Cryptile
 
-**CryptPass** is an application for secure password storage that uses OpenSSL. The application allows users to add, delete, and edit password entries while protecting them using modern encryption techniques.
+Cryptile is a secure cross-platform vault for storing sensitive personal data. It supports multiple authentication methods, including a smart card and a master password, and is designed around envelope encryption with per-record key separation.
 
 ## Overview
+TODO :)
+This project is unfinished, and if you want to participate, well, let me know :) mrqirll@gmail.com
 
-CryptPass uses:
-- **Qt** for the graphical user interface (GUI).
-- **SQLite** for storing password data.
-- **AES-256 encryption in CBC mode** for secure password storage.
-- **Scrypt and PBKDF2** for hashing the master password.
+## Security model
+
+Cryptile separates each record into two logical parts:
+- **non-sensitive data**
+- **sensitive data**
+
+However, non-sensitive data is still sensitive. The distinction is purely relative and reflects different handling levels, where non-sensitive data is considered less sensitive than sensitive data. The only practical difference is the access pattern: non-sensitive data is loaded on application unlock, while sensitive data is loaded on demand. Both are handled using secure buffers and secure memory practices.
+
+Each record contains a randomly generated `object_id`, per-record salts, and initialization vectors.
+Cryptographic keys are derived using HKDF from a smart-card (FIDO2) HMAC challenge response and record-specific data. In the recommended configuration, the smart card acts as the root of trust. If a smart card is not available, the user may use a master password; however, this mode is considered much weaker, since the entropy source is human-generated rather than hardware-backed.
+
+The database encryption key is initialized once per application session, after which SQLCipher manages its lifecycle internally.
+
+There are two layers of encryption. The first layer is SQLCipher, and the second layer is AES-256-GCM. Each record has its own pair of CEKs, which are themselves encrypted with their KEKs. The actual data is encrypted using these CEKs: first the CEKs are decrypted, and only then the data is decrypted.
+
+When the user opens a record, the application derives the required keys, decrypts the data, displays it on screen, and wipes sensitive buffers as soon as possible.
+
+At any given time, only one record is decrypted in memory. Cryptile uses libsodium’s secure memory primitives to reduce the risk of sensitive data exposure.
+
 
 The application provides:
-- **Password encryption:** Encrypts passwords using the AES-256 algorithm in CBC mode.
-- **Secure password management:** A user-friendly GUI for managing your passwords safely.
-- **CSV import/export:** Ability to import and export passwords in CSV format.
-- **Rainbow table attack prevention:** Utilizes a unique salt during hashing.
-
-## Features
-
-- **On-the-fly encryption:** Passwords are encrypted before saving, and a secure master password is used for decryption.
-- **Flexibility:** Users can add, edit, and delete password entries.
-- **Import/Export:** Easily import and export passwords to and from CSV files.
-- **Master password hashing:** Implements Scrypt and PBKDF2 with a unique salt for enhanced security.
-- **Planned SQLCipher support:** In the future, the entire database may be encrypted using SQLCipher.
+TODO :)
 
 ## Technologies
-
-- **C++17**
-- **Qt 6**
-- **SQLite** (with planned support for on-the-fly encryption via SQLCipher in the future)
-- **OpenSSL**
+- **Qt 6** for the graphical user interface (GUI).
+- **SQLite** with **SQLCipher** for encrypted database storage.
+- **OpenSSL** and **libsodium** for cryptographic primitives.
+- **OpenSC** for smart-card communication via APDU commands.
+- **vcpkg** for dependency management.
 
 ## Installation
 
 ### Requirements
 
 1. **Qt 6** (with C++17 support and above)
-2. **OpenSSL**
-3. **SQLCipher** (planned for future full database encryption)
+2. **vcpkg**
 
 ### Build Instructions
 
 #### To compile from source:
 
-1. Download the source code on the [Realeses](https://github.com/inkogniito/CryptPass/releases) page or clone the repository:
+1. Download the source code on the [Realeses](https://github.com/inkgnt/Cryptile/releases) page or clone the repository:
    
    ```bash
-   git clone https://github.com/inkogniito/CryptPass.git
-   cd CryptPass
-   
-2. Build the project using CMake:
-   
-   ```bash
-   mkdir build
-   cd build
-   cmake -DCMAKE_BUILD_TYPE=Release ..
-   cmake --build . --config Release
+   git clone https://github.com/inkgnt/Cryptile.git
+   cd Cryptile
 
-3. Ensure that you have all dependencies installed, including Qt, OpenSSL, and (in the future) SQLCipher.
-
+2. Ensure that you have all dependencies installed.
+   TODO :)
+   
+3. Build the project using CMake:
+   TODO :)
+   
 4. Run the application:
-  In the build/Release folder, execute CryptPass.exe.
-
+   TODO :)
+   
 #### To use an installer:
-  Go to the [Releases](https://github.com/yourusername/CryptPass/releases) page and download the latest version.
+  Go to the [Releases](https://github.com/inkgnt/Cryptile/releases) page and download the latest version.
 
 ## Usage
-1. Master Password Setup:
-  On first launch, the user is prompted to set a master password, which is used to encrypt and decrypt all other passwords profiles.
-
-2. Login:
-  After setting up the master password, log in using the same password.
-
-3. Password Management:
-  In the main window, you can:
-
-    - Add a new password entry by specifying URL, login, and password.
-
-    - Edit or delete existing entries.
-
-    - Import or export passwords in CSV format.
+TODO :)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the Apache License, Version 2.0.  
+See the [LICENSE](./LICENSE.txt) file for details.
 
-It incorporates the following third-party libraries, which are distributed under their own licenses:
+You may obtain a copy of the license at:
+http://www.apache.org/licenses/LICENSE-2.0
 
-*   **Qt 6:** LGPL v3.0
-*   **OpenSSL:** Apache License 2.0
-*   **SQLCipher Community Edition:** BSD License
+Copyright (c) 2026 The Cryptile contributors.
 
-Full copyright and license notices for these dependencies can be found in the **[`NOTICE`](NOTICE)** file.
+## Third-party components
+
+This project includes third-party software components, each subject to its own license terms.
+
+Full copyright and licensing information is provided in the [NOTICE](./NOTICE.txt) file.
