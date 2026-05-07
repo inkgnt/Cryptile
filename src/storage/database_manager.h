@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sqlcipher/sqlite3.h"
+#include "sqlite3.h"
 #include "data_record.h"
 
 #include <QObject>

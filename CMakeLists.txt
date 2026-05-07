@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(CryptPass VERSION 0.1 LANGUAGES CXX C)
+project(Cryptile VERSION 0.1 LANGUAGES CXX C)
 
 # ==========================================================
 # Compiler setup
@@ -10,7 +10,6 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_C_STANDARD 11)
 
 # ==========================================================
 # Find packages
@@ -18,11 +17,12 @@ set(CMAKE_C_STANDARD 11)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 find_package(OpenSSL REQUIRED)
+find_package(unofficial-sodium CONFIG REQUIRED)
 
 # ==========================================================
 # SQLCipher Library
 # ==========================================================
-add_subdirectory(src/sqlcipher)
+add_subdirectory(sqlcipher)
 
 # ==========================================================
 # Sources
@@ -51,7 +51,7 @@ set(UI_SOURCES
 # Target
 # ==========================================================
 
-qt_add_executable(CryptPass
+qt_add_executable(Cryptile
     src/main.cpp
 
     ${CORE_SOURCES}
@@ -61,26 +61,21 @@ qt_add_executable(CryptPass
 
 )
 
-target_compile_definitions(CryptPass PRIVATE SQLITE_HAS_CODEC=1)
-target_include_directories(CryptPass PRIVATE
-
+target_include_directories(Cryptile PRIVATE
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/ui
-    ${CMAKE_SOURCE_DIR}/src/sqlcipher
 )
 
 # ==========================================================
 # Linking
 # ==========================================================
-target_link_libraries(CryptPass PRIVATE
+target_link_libraries(Cryptile PRIVATE
     Qt6::Widgets
-    sqlcipher
-)
-
-target_link_libraries(CryptPass PUBLIC
+    unofficial-sodium::sodium
     OpenSSL::Crypto
+    sqlcipher
+    sqlcipher_interface
 )
-
 
 # ==========================================================
 # Deployment
@@ -90,11 +85,11 @@ if (WIN32)
     get_filename_component(QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
     set(WINDEPLOYQT_EXECUTABLE "${QT_BIN_DIR}/windeployqt.exe")
 
-    add_custom_command(TARGET CryptPass POST_BUILD
-        COMMAND "${WINDEPLOYQT_EXECUTABLE}" "$<TARGET_FILE:CryptPass>"
+    add_custom_command(TARGET Cryptile POST_BUILD
+        COMMAND "${WINDEPLOYQT_EXECUTABLE}" "$<TARGET_FILE:Cryptile>"
     )
 
-    set_target_properties(CryptPass PROPERTIES
+    set_target_properties(Cryptile PROPERTIES
         WIN32_EXECUTABLE TRUE
     )
 elseif(UNIX AND NOT APPLE)
