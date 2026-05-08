@@ -5,11 +5,13 @@
   "dependencies": [
     {
       "name": "openssl",
-      "features": ["fips"]
+      "features": [
+        "fips"
+      ]
     },
     {
       "name": "libsodium"
     }
   ],
-  "builtin-baseline": "80f9bcfa455e875d9c1bf7a7c6692d7e1e481061"
+  "builtin-baseline": "6b07d2d37301e9e7c6fcf771536d2ff6585c5912"
 }

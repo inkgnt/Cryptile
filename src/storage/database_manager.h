@@ -17,17 +17,19 @@ public:
 
     bool databaseFileExists(const QString &dbPath) const;
 
-    bool openDatabase(const QString &dbPath, const QByteArray &password);
-
+    bool openDatabase(const QString &dbPath, const QByteArray &key);
     void closeDatabase();
-    bool createTables();
 
+    //TODO delete:
+    bool createTables();
     bool addRecord(const QString &url,
                    const QByteArray &login,
                    const QByteArray &encryptedPassword);
 
     bool deleteRecord(int id);
     QList<DataRecord> getAllRecords() const;
+    //
+
 
 private:
     explicit DatabaseManager(QObject *parent = nullptr);

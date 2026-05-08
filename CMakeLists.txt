@@ -20,9 +20,10 @@ find_package(OpenSSL REQUIRED)
 find_package(unofficial-sodium CONFIG REQUIRED)
 
 # ==========================================================
-# SQLCipher Library
+# 3rdparty libraries
 # ==========================================================
-add_subdirectory(sqlcipher)
+add_subdirectory(3rdparty/sqlcipher)
+add_subdirectory(3rdparty/stb)
 
 # ==========================================================
 # Sources
@@ -31,7 +32,7 @@ set(CORE_SOURCES
     src/crypto/crypto.cpp
     src/keymanager/keymanager.cpp
     src/storage/database_manager.cpp
-
+    src/storage/data_manager.cpp
 )
 
 set(UI_SOURCES
@@ -41,8 +42,10 @@ set(UI_SOURCES
     ui/setup/setup_view.cpp
     ui/unlock/unlock_view.cpp
 
-    ui/common/password_entry_dialog.cpp
-    ui/vault/password_entry_widget.cpp
+    ui/common/data_entry_dialog.cpp
+    ui/vault/data_entry_widget.cpp
+
+    ui/vault/secure_label.cpp
 
     ui/common/dialog.cpp
 )
@@ -58,6 +61,7 @@ qt_add_executable(Cryptile
     ${UI_SOURCES}
 
     resources/resource.qrc
+    src/utils/lock_limit.h
 
 )
 
@@ -69,12 +73,18 @@ target_include_directories(Cryptile PRIVATE
 # ==========================================================
 # Linking
 # ==========================================================
+target_compile_definitions(Cryptile PRIVATE
+    $<$<CONFIG:Release>:QT_NO_DEBUG_OUTPUT>
+)
+
 target_link_libraries(Cryptile PRIVATE
     Qt6::Widgets
     unofficial-sodium::sodium
     OpenSSL::Crypto
     sqlcipher
     sqlcipher_interface
+    stb_truetype
+    stb_truetype_interface
 )
 
 # ==========================================================

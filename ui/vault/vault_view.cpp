@@ -1,8 +1,8 @@
 #include "vault_view.h"
 #include "ui_vault_view.h"
 
-#include "password_entry_widget.h"
-#include "common/password_entry_dialog.h"
+#include "data_entry_widget.h"
+#include "common/data_entry_dialog.h"
 #include "common/dialog.h"
 
 
@@ -45,7 +45,7 @@ void VaultView::onSearchLineTextChanged(const QString &filter)
 
 void VaultView::onAddPasswordButtonClicked()
 {
-    auto pw = new PasswordForm;
+    auto pw = new DataForm;
     auto d = new Dialog(pw, this);
     d->exec();
 
@@ -98,10 +98,10 @@ void VaultView::loadDataToList(const QString &filter)
         if (!(filter.isEmpty() || record.url.contains(filter, Qt::CaseInsensitive)))
             continue;
 
-        auto *widget = new PasswordEntryWidget(record, this);
+        auto *widget = new DataEntryWidget(record, this);
 
-        connect(widget, &PasswordEntryWidget::syncRequested, this, &VaultView::onSyncRequested);
-        connect(this, &VaultView::themeChanged, widget, &PasswordEntryWidget::onThemeChanged);
+        connect(widget, &DataEntryWidget::syncRequested, this, &VaultView::onSyncRequested);
+        connect(this, &VaultView::themeChanged, widget, &DataEntryWidget::onThemeChanged);
 
         auto *item = new QListWidgetItem(ui->listWidget);
         item->setData(Qt::UserRole, record.id);

@@ -1,5 +1,5 @@
-#include "password_entry_widget.h"
-#include "ui_password_entry_widget.h"
+#include "data_entry_widget.h"
+#include "ui_data_entry_widget.h"
 
 #include "crypto/crypto.h"
 #include "keymanager/keymanager.h"
@@ -11,14 +11,22 @@ inline bool isDarkTheme(QWidget* w) {
     return w->palette().color(QPalette::Window).lightness() < 128;
 }
 
-PasswordEntryWidget::PasswordEntryWidget(DataRecord& record, QWidget *parent)
+
+//TODO SECURE LABEL
+
+DataEntryWidget::DataEntryWidget(DataRecord& record, QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::PasswordEntryWidget)
+    , ui(new Ui::DataEntryWidget)
     , record(record)
 {
     ui->setupUi(this);
 
-    ui->urlLabel->setText("🌐: " + record.url);
+    QByteArray* testUrlUtf8 = new QByteArray(record.url.toUtf8());
+
+    ui->urlLabel->setSecureText(
+        reinterpret_cast<const uint8_t*>(testUrlUtf8->constData()),
+        testUrlUtf8->size()
+        );
     ui->loginLabel->setText("👤: " + QString(8, QChar(0x25CF)));
     ui->passwordLabel->setText("🔒: " + QString(8, QChar(0x25CF)));
 
@@ -26,20 +34,19 @@ PasswordEntryWidget::PasswordEntryWidget(DataRecord& record, QWidget *parent)
     ui->loginLabel->installEventFilter(this);
     ui->passwordLabel->installEventFilter(this);
 
-    connect(ui->SHOWbtn, &QPushButton::clicked, this, &PasswordEntryWidget::onShowButtonClicked);
-    connect(ui->DELbtn, &QPushButton::clicked, this, &PasswordEntryWidget::onDeleteButtonClicked);
-
+    connect(ui->SHOWbtn, &QPushButton::clicked, this, &DataEntryWidget::onShowButtonClicked);
+    connect(ui->DELbtn, &QPushButton::clicked, this, &DataEntryWidget::onDeleteButtonClicked);
 
     ui->SHOWbtn->setIcon(QIcon(isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark"));
     ui->DELbtn->setIcon(QIcon(isDarkTheme(this) ? ":/icons/light/icon_delete_light" : ":/icons/dark/icon_delete_dark"));
 }
 
-PasswordEntryWidget::~PasswordEntryWidget()
+DataEntryWidget::~DataEntryWidget()
 {
     delete ui;
 }
 
-bool PasswordEntryWidget::eventFilter(QObject *obj, QEvent *event)
+bool DataEntryWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress)
     {
@@ -65,7 +72,7 @@ QListWidget* findlistWidget(QWidget* start)
     return nullptr;
 }
 
-void PasswordEntryWidget::onShowButtonClicked()
+void DataEntryWidget::onShowButtonClicked()
 {
     if (flag)
     {
@@ -96,7 +103,7 @@ void PasswordEntryWidget::onShowButtonClicked()
     }
 }
 
-void PasswordEntryWidget::onDeleteButtonClicked()
+void DataEntryWidget::onDeleteButtonClicked()
 {
     QListWidget *listWidget = findlistWidget(this);
     if (!listWidget)
@@ -126,7 +133,7 @@ void PasswordEntryWidget::onDeleteButtonClicked()
     emit syncRequested();
 }
 
-void PasswordEntryWidget::onThemeChanged()
+void DataEntryWidget::onThemeChanged()
 {
     if(this->palette().color(QPalette::Window).lightness() < 128)
     {

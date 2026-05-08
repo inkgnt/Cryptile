@@ -63,7 +63,7 @@ void DatabaseManager::closeDatabase()
 }
 
 
-
+//todo delete
 bool DatabaseManager::createTables()
 {
     const char* sql = R"(

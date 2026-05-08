@@ -1,24 +1,24 @@
-#include "password_entry_dialog.h"
-#include "ui_password_entry_dialog.h"
+#include "data_entry_dialog.h"
+#include "ui_data_entry_dialog.h"
 
 #include "crypto/crypto.h"
 #include "keymanager/keymanager.h"
 #include "storage/database_manager.h"
 #include <QMessageBox>
 
-PasswordForm::PasswordForm(QWidget *parent)
+DataForm::DataForm(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::PasswordForm)
+    , ui(new Ui::DataForm)
 {
     ui->setupUi(this);
 }
 
-PasswordForm::~PasswordForm()
+DataForm::~DataForm()
 {
     delete ui;
 }
 
-void PasswordForm::on_pushButton_clicked()
+void DataForm::on_pushButton_clicked()
 {
     auto url = ui->lineEdit->text();
     QByteArray loginQA = ui->usernameLineEdit->text().toUtf8();

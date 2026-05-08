@@ -5,17 +5,17 @@
 #include <QWidget>
 
 namespace Ui {
-class PasswordEntryWidget;
+class DataEntryWidget;
 }
 
-class PasswordEntryWidget : public QWidget
+class DataEntryWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit PasswordEntryWidget(DataRecord& record, QWidget *parent = nullptr);
+    explicit DataEntryWidget(DataRecord& record, QWidget *parent = nullptr);
 
-    ~PasswordEntryWidget();
+    ~DataEntryWidget();
 
 signals:
     void syncRequested();
@@ -29,7 +29,7 @@ private slots:
     void onDeleteButtonClicked();
 
 private:
-    Ui::PasswordEntryWidget *ui;
+    Ui::DataEntryWidget *ui;
 
     DataRecord record;
     bool eventFilter(QObject *obj, QEvent *event);
