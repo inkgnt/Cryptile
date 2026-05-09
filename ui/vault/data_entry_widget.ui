@@ -38,6 +38,28 @@
    </item>
    <item row="1" column="1">
     <widget class="SecureLabel" name="urlLabel">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">SecureLabel {
+    background-color: transparent;
+    color: palette(WindowText);
+    
+    /* force border delete */
+    border: none;
+    border-width: 0px;
+    border-style: none;
+    outline: none;
+    
+    /* border margins */
+    padding: 0px;
+    margin: 0px;
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::Shape::StyledPanel</enum>
      </property>

@@ -16,6 +16,8 @@ public:
 
     SecureBuffer(size_t size) : size_(size)
     {
+        if (size_ == 0) return;
+
         data_ = (uint8_t*)sodium_malloc(size_);
         qDebug() << "sodium_malloc triggered";
         if (!data_) {

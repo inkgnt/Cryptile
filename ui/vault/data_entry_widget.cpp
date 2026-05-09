@@ -30,9 +30,13 @@ DataEntryWidget::DataEntryWidget(DataRecord& record, QWidget *parent)
     ui->loginLabel->setText("👤: " + QString(8, QChar(0x25CF)));
     ui->passwordLabel->setText("🔒: " + QString(8, QChar(0x25CF)));
 
-    ui->urlLabel->installEventFilter(this);
-    ui->loginLabel->installEventFilter(this);
-    ui->passwordLabel->installEventFilter(this);
+    //ui->urlLabel->installEventFilter(this);
+    //ui->loginLabel->installEventFilter(this);
+    //ui->passwordLabel->installEventFilter(this);
+
+    ui->urlLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+    ui->loginLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+    ui->passwordLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
 
     connect(ui->SHOWbtn, &QPushButton::clicked, this, &DataEntryWidget::onShowButtonClicked);
     connect(ui->DELbtn, &QPushButton::clicked, this, &DataEntryWidget::onDeleteButtonClicked);
@@ -45,7 +49,7 @@ DataEntryWidget::~DataEntryWidget()
 {
     delete ui;
 }
-
+/*
 bool DataEntryWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress)
@@ -57,9 +61,10 @@ bool DataEntryWidget::eventFilter(QObject *obj, QEvent *event)
         }
     }
 
+
     return QWidget::eventFilter(obj, event);
 }
-
+*/
 QListWidget* findlistWidget(QWidget* start)
 {
     QWidget *p = start;
