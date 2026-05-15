@@ -13,7 +13,7 @@ class SecureLabel : public QFrame {
 
 public:
     explicit SecureLabel(QWidget *parent = nullptr);
-    ~SecureLabel() override;
+    ~SecureLabel() = default;
 
     void setSecureText(const uint8_t* utf8_data, size_t size);
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.21)
 project(Cryptile VERSION 0.1 LANGUAGES CXX C)
 
 # ==========================================================
@@ -46,6 +46,7 @@ set(UI_SOURCES
     ui/vault/data_entry_widget.cpp
 
     ui/vault/secure_label.cpp
+    ui/vault/secure_line_edit.cpp
 
     ui/common/dialog.cpp
 )
@@ -53,19 +54,17 @@ set(UI_SOURCES
 # ==========================================================
 # Target
 # ==========================================================
-
-qt_add_executable(Cryptile
+add_executable(${PROJECT_NAME}
     src/main.cpp
 
     ${CORE_SOURCES}
     ${UI_SOURCES}
 
     resources/resource.qrc
-    src/utils/lock_limit.h
-
+    src/utils/widget_helpers.h
 )
 
-target_include_directories(Cryptile PRIVATE
+target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/ui
 )
@@ -73,16 +72,43 @@ target_include_directories(Cryptile PRIVATE
 # ==========================================================
 # Linking
 # ==========================================================
-target_compile_definitions(Cryptile PRIVATE
-    $<$<CONFIG:Release>:QT_NO_DEBUG_OUTPUT>
-)
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        /GS
+        /sdl
+        /guard:cf
+    )
+    target_link_options(${PROJECT_NAME} PRIVATE
+        /NXCOMPAT
+        /GUARD:CF
+        /CETCOMPAT
+    )
+elseif(UNIX)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        -fstack-protector-strong
+        $<$<NOT:$<CONFIG:Debug>>:-D_FORTIFY_SOURCE=3>
+    )
 
-target_link_libraries(Cryptile PRIVATE
+    if(NOT APPLE)
+        target_link_options(${PROJECT_NAME} PRIVATE
+            -Wl,-z,relro,-z,now
+            -Wl,--no-execstack
+        )
+    endif()
+endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Release>:QT_NO_DEBUG_OUTPUT>)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Widgets
     unofficial-sodium::sodium
     OpenSSL::Crypto
+
     sqlcipher
     sqlcipher_interface
+
     stb_truetype
     stb_truetype_interface
 )
@@ -95,13 +121,22 @@ if (WIN32)
     get_filename_component(QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
     set(WINDEPLOYQT_EXECUTABLE "${QT_BIN_DIR}/windeployqt.exe")
 
-    add_custom_command(TARGET Cryptile POST_BUILD
-        COMMAND "${WINDEPLOYQT_EXECUTABLE}" "$<TARGET_FILE:Cryptile>"
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND "${WINDEPLOYQT_EXECUTABLE}" "$<TARGET_FILE:${PROJECT_NAME}>"
     )
 
-    set_target_properties(Cryptile PROPERTIES
+    set_target_properties(${PROJECT_NAME} PROPERTIES
         WIN32_EXECUTABLE TRUE
     )
-elseif(UNIX AND NOT APPLE)
+
+elseif(UNIX)
+
+
+
+    if(NOT APPLE)
+
+
+
+    endif()
 
 endif()

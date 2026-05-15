@@ -23,30 +23,53 @@
    <enum>Qt::LayoutDirection::LeftToRight</enum>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLineEdit" name="searchLine">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="0" column="3">
+    <widget class="QPushButton" name="lockButton">
      <property name="minimumSize">
       <size>
-       <width>225</width>
+       <width>30</width>
        <height>30</height>
       </size>
      </property>
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
+     <property name="maximumSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
      </property>
-     <property name="styleSheet">
-      <string notr="true"/>
+     <property name="text">
+      <string/>
      </property>
-     <property name="placeholderText">
-      <string>Search:</string>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QPushButton" name="importButton">
+     <property name="minimumSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
      </property>
     </widget>
    </item>
@@ -58,6 +81,40 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="9">
+    <widget class="QListWidget" name="listWidget">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="8">
+    <widget class="QPushButton" name="settingsButton">
      <property name="minimumSize">
       <size>
        <width>30</width>
@@ -112,56 +169,6 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="3">
-    <widget class="QPushButton" name="lockButton">
-     <property name="minimumSize">
-      <size>
-       <width>30</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>30</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>25</width>
-       <height>25</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="4">
-    <widget class="QPushButton" name="importButton">
-     <property name="minimumSize">
-      <size>
-       <width>30</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>30</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>25</width>
-       <height>25</height>
-      </size>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="5">
     <widget class="QPushButton" name="exportButton">
      <property name="minimumSize">
@@ -188,6 +195,49 @@
     </widget>
    </item>
    <item row="0" column="6">
+    <widget class="SecureLineEdit" name="frame">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Raised</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLineEdit" name="searchLine">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>225</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="placeholderText">
+      <string>Search:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="7">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
@@ -200,42 +250,16 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="7">
-    <widget class="QPushButton" name="settingsButton">
-     <property name="minimumSize">
-      <size>
-       <width>30</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>30</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>25</width>
-       <height>25</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="8">
-    <widget class="QListWidget" name="listWidget">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SecureLineEdit</class>
+   <extends>QFrame</extends>
+   <header location="global">vault/secure_line_edit.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

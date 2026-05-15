@@ -5,7 +5,7 @@
 #include "common/data_entry_dialog.h"
 #include "common/dialog.h"
 
-
+#include <QLineEdit>
 
 #include "storage/database_manager.h"
 
@@ -30,6 +30,8 @@ VaultView::VaultView(QWidget *parent)
     connect(ui->importButton, &QPushButton::clicked, this, &VaultView::onImportButtonClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &VaultView::onExportButtonClicked);
     connect(ui->settingsButton, &QPushButton::clicked, this, &VaultView::onSettingsButtonClicked);
+
+    ui->frame->setPlaceholderText("placeholderText");
 }
 
 VaultView::~VaultView()
