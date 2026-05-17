@@ -34,7 +34,6 @@ private:
     ~KeyManager();
 
     void checkSessionValidity();
-    void clearKeyPRNG();
 
     mutable std::mutex mtx;
     std::vector<uint8_t> key;

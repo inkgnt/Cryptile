@@ -214,7 +214,7 @@
   <customwidget>
    <class>SecureLabel</class>
    <extends>QFrame</extends>
-   <header location="global">vault/secure_label.h</header>
+   <header location="global">common/secure_label.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

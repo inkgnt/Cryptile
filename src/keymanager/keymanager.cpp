@@ -1,4 +1,5 @@
 #include "keymanager.h"
+#include <sodium.h>
 
 KeyManager& KeyManager::instance()
 {
@@ -57,21 +58,14 @@ void KeyManager::clearKey()
 {
     std::lock_guard<std::mutex> lock(mtx);
 
-    clearKeyPRNG();
-}
-
-void KeyManager::clearKeyPRNG()
-{
     if (initialized) {
-        std::generate(key.begin(), key.end(), []() {
-            return static_cast<uint8_t>(QRandomGenerator::system()->generate() & 0xFF);
-        });
-        std::fill(key.begin(), key.end(), 0);
+        sodium_memzero(key.data(), key.size());
         initialized = false;
 
         emit keyCleared();
     }
 }
+
 
 
 bool KeyManager::isSessionValid() const
@@ -92,6 +86,6 @@ void KeyManager::checkSessionValidity()
     std::lock_guard<std::mutex> lock(mtx);
 
     if (initialized && lastActivity.msecsTo(QDateTime::currentDateTime()) >= SESSION_TIMEOUT_MS)
-        clearKeyPRNG();
+        clearKey();
 
 }

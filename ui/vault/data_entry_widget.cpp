@@ -49,22 +49,7 @@ DataEntryWidget::~DataEntryWidget()
 {
     delete ui;
 }
-/*
-bool DataEntryWidget::eventFilter(QObject *obj, QEvent *event)
-{
-    if (event->type() == QEvent::MouseButtonPress)
-    {
-        if (obj == ui->urlLabel || obj == ui->loginLabel || obj == ui->passwordLabel)
-        {
-            QWidget::mousePressEvent(static_cast<QMouseEvent *>(event));
-            return false;
-        }
-    }
 
-
-    return QWidget::eventFilter(obj, event);
-}
-*/
 QListWidget* findlistWidget(QWidget* start)
 {
     QWidget *p = start;

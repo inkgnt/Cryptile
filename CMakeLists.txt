@@ -37,7 +37,6 @@ set(CORE_SOURCES
 
 set(UI_SOURCES
     ui/root/root_view.cpp
-
     ui/vault/vault_view.cpp
     ui/setup/setup_view.cpp
     ui/unlock/unlock_view.cpp
@@ -45,10 +44,11 @@ set(UI_SOURCES
     ui/common/data_entry_dialog.cpp
     ui/vault/data_entry_widget.cpp
 
-    ui/vault/secure_label.cpp
-    ui/vault/secure_line_edit.cpp
-
     ui/common/dialog.cpp
+
+    ui/common/secure_font_renderer.cpp
+    ui/common/secure_label.cpp
+    ui/common/secure_line_edit.cpp
 )
 
 # ==========================================================
@@ -61,7 +61,7 @@ add_executable(${PROJECT_NAME}
     ${UI_SOURCES}
 
     resources/resource.qrc
-    src/utils/widget_helpers.h
+    ui/common/secure_text_widget.h ui/common/secure_text_widget.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

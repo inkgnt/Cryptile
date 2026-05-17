@@ -22,8 +22,7 @@
 int main(int argc, char *argv[])
 {
 #ifdef _WIN32
-//if (IsDebuggerPresent())
-    //return EXIT_FAILURE;
+// TODO IsDebuggerPresent())
 #elif defined(__APPLE__)
     ptrace(PT_DENY_ATTACH, 0, 0, 0);
 #elif defined(__linux__)

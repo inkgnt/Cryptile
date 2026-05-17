@@ -32,7 +32,6 @@ private:
     Ui::DataEntryWidget *ui;
 
     DataRecord record;
-    //bool eventFilter(QObject *obj, QEvent *event);
 
     bool flag = true;
 };

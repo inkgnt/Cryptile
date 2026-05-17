@@ -256,7 +256,7 @@
   <customwidget>
    <class>SecureLineEdit</class>
    <extends>QFrame</extends>
-   <header location="global">vault/secure_line_edit.h</header>
+   <header location="global">common/secure_line_edit.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
