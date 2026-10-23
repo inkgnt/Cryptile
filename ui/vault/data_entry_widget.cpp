@@ -28,9 +28,6 @@ QListWidget* findlistWidget(QWidget* start)
 }
 }
 
-
-//TODO SECURE LABEL
-
 DataEntryWidget::DataEntryWidget(DataRecord& record, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::DataEntryWidget)
@@ -38,11 +35,9 @@ DataEntryWidget::DataEntryWidget(DataRecord& record, QWidget *parent)
 {
     ui->setupUi(this);
 
-    QByteArray* testUrlUtf8 = new QByteArray(record.url.toUtf8());
-
-    ui->urlLabel->setSecureText(reinterpret_cast<const std::uint8_t*>(testUrlUtf8->constData()), testUrlUtf8->size());
-    ui->loginLabel->setObfuscated(true);
-    ui->passwordLabel->setObfuscated(true);
+    ui->urlLabel->setText(record.url);
+    ui->loginLabel->setText("********");
+    ui->passwordLabel->setText("********");
 
     ui->urlLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
     ui->loginLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -75,19 +70,19 @@ void DataEntryWidget::onShowButtonClicked()
         QString loginString = QString::fromUtf8(reinterpret_cast<const char*>(plainLogin.data()), plainLogin.size());
         QString passString = QString::fromUtf8(reinterpret_cast<const char*>(plainPass.data()), plainPass.size());
 
-        ui->loginLabel->setObfuscated(false);
-        ui->passwordLabel->setObfuscated(false);
+        ui->loginLabel->setText("********");
+        ui->passwordLabel->setText("********");
         isObfuscated = false;
 
-        ui->loginLabel->setSecureText(plainLogin.data(), plainLogin.size());
-        ui->passwordLabel->setSecureText(plainPass.data(), plainPass.size());
+        ui->loginLabel->setText(loginString);
+        ui->passwordLabel->setText(passString);
 
         ui->showButton->setIcon(QIcon(isDarkTheme(this) ? ":/icons/light/icon_hide_light" : ":/icons/dark/icon_hide_dark"));
     }
     else
     {
-        ui->loginLabel->setObfuscated(true);
-        ui->passwordLabel->setObfuscated(true);
+        ui->loginLabel->setText("********");
+        ui->passwordLabel->setText("********");
         isObfuscated = true;
 
         ui->showButton->setIcon(QIcon(isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark"));

@@ -65,8 +65,6 @@ void KeyManager::clearKey()
     }
 }
 
-
-
 bool KeyManager::isSessionValid() const
 {
     if (initialized)

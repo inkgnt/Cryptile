@@ -19,11 +19,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 find_package(OpenSSL CONFIG REQUIRED)
 find_package(libsodium CONFIG REQUIRED)
 find_package(sqlcipher CONFIG REQUIRED)
-
-# ==========================================================
-# 3rdparty libraries
-# ==========================================================
-add_subdirectory(3rdparty/stb)
+find_package(libfido2 CONFIG REQUIRED)
 
 # ==========================================================
 # Sources
@@ -45,11 +41,6 @@ set(UI_SOURCES
     ui/vault/data_entry_widget.cpp
 
     ui/common/dialog.cpp
-
-    ui/common/secure_font_renderer.cpp
-    ui/common/secure_label.cpp
-    ui/common/secure_line_edit.cpp
-    ui/common/secure_text_widget.cpp
 )
 
 # ==========================================================
@@ -78,13 +69,11 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Release>:QT_NO_DEB
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Widgets
-    
-    OpenSSL::Crypto    
-    libsodium::libsodium 
-    sqlcipher::sqlcipher
 
-    stb_truetype
-    stb_truetype_interface
+    OpenSSL::Crypto
+    libsodium::libsodium
+    sqlcipher::sqlcipher
+    libfido2::libfido2
 )
 
 # ==========================================================

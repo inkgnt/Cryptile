@@ -5,9 +5,9 @@
 #include "common/data_entry_dialog.h"
 #include "common/dialog.h"
 
-#include <QLineEdit>
-
 #include "storage/database_manager.h"
+
+#include <QLineEdit>
 
 inline bool isDarkTheme(QWidget* w) {
     return w->palette().color(QPalette::Window).lightness() < 128;
@@ -21,9 +21,9 @@ VaultView::VaultView(QWidget *parent)
 
     changeIcons();
 
-    loadDataToList(SecureBuffer());
+    loadDataToList(QString());
 
-    connect(ui->searchLine, &SecureLineEdit::textChanged, this, &VaultView::onSearchLineTextChanged);
+    connect(ui->searchLine, &QLineEdit::textChanged, this, &VaultView::loadDataToList);
     connect(ui->addPasswordButton, &QPushButton::clicked, this, &VaultView::onAddPasswordButtonClicked);
     connect(ui->deletePasswordButton, &QPushButton::clicked, this, &VaultView::onDeletePasswordButtonClicked);
     connect(ui->lockButton, &QPushButton::clicked, this, &VaultView::onLockButtonClicked);
@@ -40,18 +40,13 @@ VaultView::~VaultView()
     delete ui;
 }
 
-void VaultView::onSearchLineTextChanged(const SecureBuffer& filter)
-{
-    loadDataToList(filter);
-}
-
 void VaultView::onAddPasswordButtonClicked()
 {
     auto pw = new DataForm;
     auto d = new Dialog(pw, this);
     d->exec();
 
-    loadDataToList(SecureBuffer());
+    loadDataToList(QString());
 }
 
 void VaultView::onDeletePasswordButtonClicked()
@@ -67,7 +62,7 @@ void VaultView::onDeletePasswordButtonClicked()
         delete item;
     }
 
-    loadDataToList(SecureBuffer());
+    loadDataToList(QString());
 }
 
 void VaultView::onLockButtonClicked()
@@ -77,10 +72,10 @@ void VaultView::onLockButtonClicked()
 
 void VaultView::onImportButtonClicked()
 {
-    if (ui->searchLine->isObfuscated())
-        ui->searchLine->setObfuscated(false);
-    else
-        ui->searchLine->setObfuscated(true);
+    //if (ui->searchLine->isObfuscated())
+    //    ui->searchLine->setObfuscated(false);
+    //else
+    //    ui->searchLine->setObfuscated(true);
 }
 
 void VaultView::onExportButtonClicked()
@@ -93,20 +88,14 @@ void VaultView::onSettingsButtonClicked()
     //
 }
 
-void VaultView::loadDataToList(const SecureBuffer& filter)
+void VaultView::loadDataToList(const QString& filter)
 {
     ui->listWidget->clear();
     QList<DataRecord> records = DatabaseManager::instance().getAllRecords();
 
     for (DataRecord& record : records)
     {
-
-        QByteArray testUrlUtf8(record.url.toUtf8());
-        SecureBuffer test(testUrlUtf8.size());
-        std::memcpy(test.data(), testUrlUtf8.data(), testUrlUtf8.size());
-
-        //TODO
-        if (!(filter.empty() || test.contains(filter, Qt::CaseInsensitive)))
+        if (!(filter.isEmpty()) )
             continue;
 
         auto *widget = new DataEntryWidget(record, this);
@@ -167,5 +156,5 @@ void VaultView::onThemeChanged()
 
 void VaultView::onSyncRequested()
 {
-    loadDataToList(SecureBuffer());
+    loadDataToList(QString());
 }

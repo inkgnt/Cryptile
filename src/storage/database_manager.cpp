@@ -1,5 +1,3 @@
-#pragma once
-
 #include "database_manager.h"
 
 #include <QDebug>

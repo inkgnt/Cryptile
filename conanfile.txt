@@ -2,6 +2,7 @@
 openssl/3.5.7
 libsodium/1.0.22
 sqlcipher/4.16.0
+libfido2/1.17.0
 
 [options]
 openssl/*:shared=False

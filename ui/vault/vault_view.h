@@ -23,7 +23,6 @@ public slots:
     void onThemeChanged();
 
 private slots:
-    void onSearchLineTextChanged(const SecureBuffer& filter);
 
     void onAddPasswordButtonClicked();
     void onDeletePasswordButtonClicked();
@@ -33,11 +32,12 @@ private slots:
     void onSettingsButtonClicked();
 
     void onSyncRequested();
+    void loadDataToList(const QString &text);
 
 private:
     Ui::VaultView *ui;
 
-    void loadDataToList(const SecureBuffer& filter);
+
 
     void changeIcons();
 };

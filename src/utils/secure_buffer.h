@@ -1,7 +1,6 @@
 #pragma once
 
 #include "lock_limit.h"
-#include "widget_helpers.h"
 
 #include <sodium.h>
 
@@ -82,10 +81,6 @@ public:
         size_ = new_size;
     }
 
-    bool contains(const SecureBuffer& other, Qt::CaseSensitivity cs) const {
-        return contains(other.data(), other.size(), cs);
-    }
-
 
 private:
     inline static std::atomic<std::size_t> global_memory_used{0};
@@ -150,75 +145,6 @@ private:
 
         data_ = new_data;
         capacity_ = new_capacity;
-    }
-
-
-    //TODO
-
-
-    bool contains(const std::uint8_t* pData, std::size_t pSize, Qt::CaseSensitivity cs) const {
-        if (pSize == 0) return true;
-        if (pSize > size_) return false;
-
-        if (cs == Qt::CaseSensitive) {
-            return std::search(data_, data_ + size_, pData, pData + pSize) != (data_ + size_);
-        } else {
-            return utf8SearchInsensitive(pData, pSize);
-        }
-    }
-
-    static std::uint32_t toLowerUnicode(std::uint32_t cp) {
-        if (cp >= 0x0041 && cp <= 0x005A) return cp + 0x20;
-
-        if (cp >= 0x0410 && cp <= 0x042F) return cp + 0x20;
-
-        if (cp == 0x0401) return 0x0451;
-
-        if ((cp >= 0x00C0 && cp <= 0x00D6) || (cp >= 0x00D8 && cp <= 0x00DE)) return cp + 0x20;
-
-        return cp;
-    }
-
-    bool utf8SearchInsensitive(const std::uint8_t* pData, std::size_t pSize) const {
-        std::vector<std::uint32_t> patternCP;
-        const std::uint8_t* pPtr = pData;
-        const std::uint8_t* pEnd = pData + pSize;
-        while (pPtr < pEnd) {
-            patternCP.push_back(toLowerUnicode(nextUtf8Codepoint(pPtr, pEnd)));
-        }
-
-        if (patternCP.empty()) return true;
-
-        const std::uint8_t* currentStart = data_;
-        const std::uint8_t* totalEnd = data_ + size_;
-
-        while (currentStart < totalEnd) {
-            const std::uint8_t* searchPtr = currentStart;
-            bool match = true;
-
-            for (std::uint32_t pCP : patternCP) {
-                if (searchPtr >= totalEnd) {
-                    match = false;
-                    break;
-                }
-                std::uint32_t bufferCP = toLowerUnicode(nextUtf8Codepoint(searchPtr, totalEnd));
-                if (bufferCP != pCP) {
-                    match = false;
-                    break;
-                }
-            }
-
-            if (match) return true;
-
-            nextUtf8Codepoint(currentStart, totalEnd);
-        }
-
-        return false;
-    }
-
-    static inline std::uint8_t toLowerAscii(std::uint8_t c) {
-        if (c >= 'A' && c <= 'Z') return c + 32;
-        return c;
     }
 
 };

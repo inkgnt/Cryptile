@@ -21,7 +21,4 @@
         <file alias="icon_show_dark">icons/dark/visibility_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
         <file alias="icon_hide_dark">icons/dark/visibility_off_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
     </qresource>
-    <qresource prefix="/fonts">
-        <file alias="RobotoMono-Regular">fonts/Roboto_Mono/ttf/RobotoMono-Regular.ttf</file>
-    </qresource>
 </RCC>
