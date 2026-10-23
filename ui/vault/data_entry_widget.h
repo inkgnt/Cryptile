@@ -19,9 +19,6 @@ public:
 signals:
     void syncRequested();
 
-public slots:
-    void onThemeChanged();
-
 private slots:
     void onShowButtonClicked();
 
@@ -32,5 +29,5 @@ private:
 
     DataRecord record;
 
-    bool isObfuscated = true;
+    bool obfuscated = true;
 };

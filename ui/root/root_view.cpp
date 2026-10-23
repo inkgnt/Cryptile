@@ -1,5 +1,6 @@
 #include "root_view.h"
 #include "ui_root_view.h"
+
 #include "crypto/crypto.h"
 #include "keymanager/keymanager.h"
 #include "storage/database_manager.h"
@@ -17,11 +18,7 @@ RootView::RootView(QWidget *parent)
     UnlockView = new class UnlockView(stack);
 
     connect(SetupView, &SetupView::registerSuccess, this, &RootView::onRegistrationComplete);
-    connect(this, &RootView::themeChanged, SetupView, &SetupView::onThemeChanged);
-
     connect(UnlockView, &UnlockView::loginSuccess, this, &RootView::onLoginSuccess);
-    connect(this, &RootView::themeChanged, UnlockView, &UnlockView::onThemeChanged);
-
     connect(&KeyManager::instance(), &KeyManager::keyCleared, this, &RootView::onKeyCleared);
 
     stack->addWidget(SetupView);
@@ -71,7 +68,6 @@ void RootView::onLoginSuccess()
     VaultView = new class VaultView(stack);
 
     connect(VaultView, &VaultView::lockRequested, this, &RootView::onLockRequested);
-    connect(this, &RootView::themeChanged, VaultView, &VaultView::onThemeChanged);
 
     stack->removeWidget(UnlockView);
     UnlockView->deleteLater();
@@ -91,7 +87,6 @@ void RootView::onKeyCleared()
 
     UnlockView = new class UnlockView(stack);
     connect(UnlockView, &UnlockView::loginSuccess, this, &RootView::onLoginSuccess);
-    connect(this, &RootView::themeChanged, UnlockView, &UnlockView::onThemeChanged);
 
     stack->addWidget(UnlockView);
     stack->setCurrentWidget(UnlockView);
@@ -101,12 +96,3 @@ void RootView::onLockRequested()
 {
     KeyManager::instance().clearKey();
 }
-
-bool RootView::event(QEvent *event)
-{
-    if (event->type() == QEvent::ApplicationPaletteChange)
-        emit themeChanged();
-
-    return QMainWindow::event(event);
-}
-

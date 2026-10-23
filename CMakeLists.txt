@@ -53,6 +53,7 @@ add_executable(${PROJECT_NAME}
     ${UI_SOURCES}
 
     resources/resource.qrc
+    src/utils/theme.h
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

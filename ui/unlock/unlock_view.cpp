@@ -6,14 +6,11 @@
 #include "keymanager/keymanager.h"
 #include <QFile>
 
+#include "utils/theme.h"
+
 #include <QMessageBox>
 #include <QToolButton>
-#include <QToolButton>
 #include <QHBoxLayout>
-
-inline bool isDarkTheme(QWidget* w) {
-    return w->palette().color(QPalette::Window).lightness() < 128;
-}
 
 UnlockView::UnlockView(QWidget *parent)
     : QWidget(parent)
@@ -21,13 +18,11 @@ UnlockView::UnlockView(QWidget *parent)
 {
     ui->setupUi(this);
 
-    QString showIcon = isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark";
-
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 
     toggleButton = new QToolButton(ui->passwordLineEdit);
     toggleButton->setCursor(Qt::ArrowCursor);
-    toggleButton->setIcon(QIcon(showIcon));
+    toggleButton->setIcon(QIcon(new ThemedIconEngine("show", "hide")));
     toggleButton->setFixedSize(25, 25);
     toggleButton->setStyleSheet(R"(
         QToolButton {
@@ -46,16 +41,8 @@ UnlockView::UnlockView(QWidget *parent)
     layout->addWidget(toggleButton);
     ui->passwordLineEdit->setLayout(layout);
 
-    connect(toggleButton, &QToolButton::clicked, this, [this]() {
-        isPasswordVisible = !isPasswordVisible;
-
-        ui->passwordLineEdit->setEchoMode(isPasswordVisible ? QLineEdit::Normal : QLineEdit::Password);
-
-        QString iconPath = isPasswordVisible
-                               ? (isDarkTheme(this) ? ":/icons/light/icon_hide_light" : ":/icons/dark/icon_hide_dark")
-                               : (isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark");
-
-        toggleButton->setIcon(QIcon(iconPath));
+    connect(toggleButton, &QToolButton::toggled, this, [this](bool visible) {
+        ui->passwordLineEdit->setEchoMode(visible ? QLineEdit::Normal : QLineEdit::Password);
     });
 
     connect(ui->loginButton, &QPushButton::clicked, this, &UnlockView::onloginButtonClicked);
@@ -92,11 +79,4 @@ void UnlockView::onloginButtonClicked()
         QMessageBox::warning(this, "Error", "Password is wrong!");
         ui->passwordLineEdit->clear();
     }
-}
-
-void UnlockView::onThemeChanged() {
-    QString show = isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark";
-    QString hide = isDarkTheme(this) ? ":/icons/light/icon_hide_light" : ":/icons/dark/icon_hide_dark";
-
-    toggleButton->setIcon(QIcon(isPasswordVisible ? hide : show));
 }

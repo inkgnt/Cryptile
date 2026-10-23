@@ -2,13 +2,10 @@
 #include "ui_setup_view.h"
 
 #include "crypto/crypto.h"
+#include "utils/theme.h"
 
 #include <QMessageBox>
 #include <QToolButton>
-
-inline bool isDarkTheme(QWidget* w) {
-    return w->palette().color(QPalette::Window).lightness() < 128;
-}
 
 SetupView::SetupView(QWidget *parent)
     : QWidget(parent)
@@ -18,13 +15,11 @@ SetupView::SetupView(QWidget *parent)
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
     ui->confirmPasswordLineEdit->setEchoMode(QLineEdit::Password);
 
-    QString showIcon = isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark";
-
     toggleButton1 = new QToolButton(ui->passwordLineEdit);
     toggleButton2 = new QToolButton(ui->confirmPasswordLineEdit);
 
     toggleButton1->setCursor(Qt::ArrowCursor);
-    toggleButton1->setIcon(QIcon(showIcon));
+    toggleButton1->setIcon(QIcon(new ThemedIconEngine("show", "hide")));
     toggleButton1->setFixedSize(25, 25);
     toggleButton1->setStyleSheet(R"(
         QToolButton {
@@ -38,7 +33,7 @@ SetupView::SetupView(QWidget *parent)
     )");
 
     toggleButton2->setCursor(Qt::ArrowCursor);
-    toggleButton2->setIcon(QIcon(showIcon));
+    toggleButton2->setIcon(QIcon(new ThemedIconEngine("show", "hide")));
     toggleButton2->setFixedSize(25, 25);
     toggleButton2->setStyleSheet(R"(
         QToolButton {
@@ -64,28 +59,12 @@ SetupView::SetupView(QWidget *parent)
     ui->passwordLineEdit->setLayout(layout);
     ui->confirmPasswordLineEdit->setLayout(layoutRepeat);
 
-    connect(toggleButton1, &QToolButton::clicked, this, [this]() {
-        isFirstPasswordVisible = !isFirstPasswordVisible;
-
-        ui->passwordLineEdit->setEchoMode(isFirstPasswordVisible ? QLineEdit::Normal : QLineEdit::Password);
-
-        QString iconPath = isFirstPasswordVisible
-                               ? (isDarkTheme(this) ? ":/icons/light/icon_hide_light" : ":/icons/dark/icon_hide_dark")
-                               : (isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark");
-
-        toggleButton1->setIcon(QIcon(iconPath));
+    connect(toggleButton1, &QToolButton::toggled, this, [this](bool visible) {
+        ui->passwordLineEdit->setEchoMode(visible ? QLineEdit::Normal : QLineEdit::Password);
     });
 
-    connect(toggleButton2, &QToolButton::clicked, this, [this]() {
-        isSecondPasswordVisible = !isSecondPasswordVisible;
-
-        ui->confirmPasswordLineEdit->setEchoMode(isSecondPasswordVisible ? QLineEdit::Normal : QLineEdit::Password);
-
-        QString iconPath = isSecondPasswordVisible
-                               ? (isDarkTheme(this) ? ":/icons/light/icon_hide_light" : ":/icons/dark/icon_hide_dark")
-                               : (isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark");
-
-        toggleButton2->setIcon(QIcon(iconPath));
+    connect(toggleButton2, &QToolButton::toggled, this, [this](bool visible) {
+        ui->confirmPasswordLineEdit->setEchoMode(visible ? QLineEdit::Normal : QLineEdit::Password);
     });
 
     connect(ui->submitButton, &QPushButton::clicked, this, &SetupView::onsubmitButtonClicked);
@@ -122,12 +101,4 @@ void SetupView::onsubmitButtonClicked()
     ui->confirmPasswordLineEdit->clear();
 
     emit registerSuccess();
-}
-
-void SetupView::onThemeChanged() {
-    QString show = isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark";
-    QString hide = isDarkTheme(this) ? ":/icons/light/icon_hide_light" : ":/icons/dark/icon_hide_dark";
-
-    toggleButton1->setIcon(QIcon(isFirstPasswordVisible ? hide : show));
-    toggleButton2->setIcon(QIcon(isSecondPasswordVisible ? hide : show));
 }

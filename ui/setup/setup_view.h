@@ -18,9 +18,6 @@ public:
 signals:
     void registerSuccess();
 
-public slots:
-    void onThemeChanged();
-
 private slots:
     void onsubmitButtonClicked();
 

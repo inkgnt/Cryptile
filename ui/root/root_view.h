@@ -1,11 +1,11 @@
 #pragma once
 
-#include <QMainWindow>
-#include <QStackedWidget>
-
 #include "setup/setup_view.h"
 #include "unlock/unlock_view.h"
 #include "vault/vault_view.h"
+
+#include <QMainWindow>
+#include <QStackedWidget>
 
 namespace Ui {
 class RootView;
@@ -18,9 +18,6 @@ class RootView : public QMainWindow
 public:
     explicit RootView(QWidget *parent = nullptr);
     ~RootView();
-
-signals:
-    void themeChanged();
 
 private slots:
     void onRegistrationComplete();
@@ -37,6 +34,4 @@ private:
     VaultView *VaultView;
 
     void setWidget();
-protected:
-    bool event(QEvent *event) override;
 };

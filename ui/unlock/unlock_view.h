@@ -18,9 +18,6 @@ public:
 signals:
     void loginSuccess();
 
-public slots:
-    void onThemeChanged();
-
 private slots:
     void onloginButtonClicked();
 

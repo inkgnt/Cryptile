@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QWidget>
-#include "utils/secure_buffer.h"
 
 namespace Ui {
 class VaultView;
@@ -17,10 +16,6 @@ public:
 
 signals:
     void lockRequested();
-    void themeChanged();
-
-public slots:
-    void onThemeChanged();
 
 private slots:
 
@@ -36,8 +31,4 @@ private slots:
 
 private:
     Ui::VaultView *ui;
-
-
-
-    void changeIcons();
 };

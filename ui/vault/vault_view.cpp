@@ -4,14 +4,10 @@
 #include "data_entry_widget.h"
 #include "common/data_entry_dialog.h"
 #include "common/dialog.h"
-
+#include "utils/theme.h"
 #include "storage/database_manager.h"
 
 #include <QLineEdit>
-
-inline bool isDarkTheme(QWidget* w) {
-    return w->palette().color(QPalette::Window).lightness() < 128;
-}
 
 VaultView::VaultView(QWidget *parent)
     : QWidget(parent)
@@ -19,14 +15,20 @@ VaultView::VaultView(QWidget *parent)
 {
     ui->setupUi(this);
 
-    changeIcons();
+    ui->searchLine->addAction(QIcon(new ThemedIconEngine("search")), QLineEdit::LeadingPosition);
+    ui->addPasswordButton->setIcon(QIcon(new ThemedIconEngine("add")));
+    ui->deletePasswordButton->setIcon(QIcon(new ThemedIconEngine("delete")));
+    ui->lockButton->setIcon(QIcon(new ThemedIconEngine("lock")));
+    ui->importButton->setIcon(QIcon(new ThemedIconEngine("import")));
+    ui->exportButton->setIcon(QIcon(new ThemedIconEngine("export")));
+    ui->settingsButton->setIcon(QIcon(new ThemedIconEngine("settings")));
 
     loadDataToList(QString());
 
     connect(ui->searchLine, &QLineEdit::textChanged, this, &VaultView::loadDataToList);
     connect(ui->addPasswordButton, &QPushButton::clicked, this, &VaultView::onAddPasswordButtonClicked);
     connect(ui->deletePasswordButton, &QPushButton::clicked, this, &VaultView::onDeletePasswordButtonClicked);
-    connect(ui->lockButton, &QPushButton::clicked, this, &VaultView::onLockButtonClicked);
+    connect(ui->lockButton, &QPushButton::clicked, this, &VaultView::onLockButtonClicked); //TODO lambda
     connect(ui->importButton, &QPushButton::clicked, this, &VaultView::onImportButtonClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &VaultView::onExportButtonClicked);
     connect(ui->settingsButton, &QPushButton::clicked, this, &VaultView::onSettingsButtonClicked);
@@ -72,10 +74,7 @@ void VaultView::onLockButtonClicked()
 
 void VaultView::onImportButtonClicked()
 {
-    //if (ui->searchLine->isObfuscated())
-    //    ui->searchLine->setObfuscated(false);
-    //else
-    //    ui->searchLine->setObfuscated(true);
+    //
 }
 
 void VaultView::onExportButtonClicked()
@@ -100,8 +99,8 @@ void VaultView::loadDataToList(const QString& filter)
 
         auto *widget = new DataEntryWidget(record, this);
 
+        //TODO
         connect(widget, &DataEntryWidget::syncRequested, this, &VaultView::onSyncRequested);
-        connect(this, &VaultView::themeChanged, widget, &DataEntryWidget::onThemeChanged);
 
         auto *item = new QListWidgetItem(ui->listWidget);
         item->setData(Qt::UserRole, record.id);
@@ -110,48 +109,6 @@ void VaultView::loadDataToList(const QString& filter)
         ui->listWidget->addItem(item);
         ui->listWidget->setItemWidget(item, widget);
     }
-}
-
-void VaultView::changeIcons()
-{
-    const auto actions = ui->searchLine->actions();
-    for (QAction* action : actions)
-    {
-        ui->searchLine->removeAction(action);
-        delete action;
-    }
-
-    const auto actions1 = ui->searchLine->actions();
-    for (QAction* action : actions1)
-    {
-        ui->searchLine->removeAction(action);
-        delete action;
-    }
-
-    if (isDarkTheme(this)) {
-        ui->searchLine->addAction(QIcon(":/icons/light/icon_search_light"), QLineEdit::LeadingPosition);
-        ui->addPasswordButton->setIcon(QIcon(":/icons/light/icon_add_light"));
-        ui->deletePasswordButton->setIcon(QIcon(":/icons/light/icon_delete_light"));
-        ui->lockButton->setIcon(QIcon(":/icons/light/icon_lock_light"));
-        ui->importButton->setIcon(QIcon(":/icons/light/icon_import_light"));
-        ui->exportButton->setIcon(QIcon(":/icons/light/icon_export_light"));
-        ui->settingsButton->setIcon(QIcon(":/icons/light/icon_settings_light"));
-
-    } else {
-        ui->searchLine->addAction(QIcon(":/icons/dark/icon_search_dark"), QLineEdit::LeadingPosition);
-        ui->addPasswordButton->setIcon(QIcon(":/icons/dark/icon_add_dark"));
-        ui->deletePasswordButton->setIcon(QIcon(":/icons/dark/icon_delete_dark"));
-        ui->lockButton->setIcon(QIcon(":/icons/dark/icon_lock_dark"));
-        ui->importButton->setIcon(QIcon(":/icons/dark/icon_import_dark"));
-        ui->exportButton->setIcon(QIcon(":/icons/dark/icon_export_dark"));
-        ui->settingsButton->setIcon(QIcon(":/icons/dark/icon_settings_dark"));
-    }
-}
-
-void VaultView::onThemeChanged()
-{
-    changeIcons();
-    emit themeChanged();
 }
 
 void VaultView::onSyncRequested()

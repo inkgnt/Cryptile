@@ -4,16 +4,12 @@
 #include "crypto/crypto.h"
 #include "keymanager/keymanager.h"
 #include "storage/database_manager.h"
+#include "utils/theme.h"
 
 #include <QListWidget>
 #include <QMouseEvent>
 
 
-namespace {
-//TODO theme manager class, maybe abstract base class
-inline bool isDarkTheme(QWidget* w) {
-    return w->palette().color(QPalette::Window).lightness() < 128;
-}
 
 QListWidget* findlistWidget(QWidget* start)
 {
@@ -25,7 +21,6 @@ QListWidget* findlistWidget(QWidget* start)
         p = p->parentWidget();
     }
     return nullptr;
-}
 }
 
 DataEntryWidget::DataEntryWidget(DataRecord& record, QWidget *parent)
@@ -46,8 +41,8 @@ DataEntryWidget::DataEntryWidget(DataRecord& record, QWidget *parent)
     connect(ui->showButton, &QPushButton::clicked, this, &DataEntryWidget::onShowButtonClicked);
     connect(ui->deleteButton, &QPushButton::clicked, this, &DataEntryWidget::onDeleteButtonClicked);
 
-    ui->showButton->setIcon(QIcon(isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark"));
-    ui->deleteButton->setIcon(QIcon(isDarkTheme(this) ? ":/icons/light/icon_delete_light" : ":/icons/dark/icon_delete_dark"));
+    ui->showButton->setIcon(QIcon(new ThemedIconEngine("show", "hide")));
+    ui->deleteButton->setIcon(QIcon(new ThemedIconEngine("delete")));
 }
 
 DataEntryWidget::~DataEntryWidget()
@@ -57,7 +52,7 @@ DataEntryWidget::~DataEntryWidget()
 
 void DataEntryWidget::onShowButtonClicked()
 {
-    if (isObfuscated)
+    if (obfuscated)
     {
         std::vector<std::uint8_t> ivLogin; ivLogin.assign(record.login.begin(), record.login.begin() + 16);
         std::vector<std::uint8_t> ivPass; ivPass.assign(record.password.begin(), record.password.begin() + 16);
@@ -72,23 +67,20 @@ void DataEntryWidget::onShowButtonClicked()
 
         ui->loginLabel->setText("********");
         ui->passwordLabel->setText("********");
-        isObfuscated = false;
+        obfuscated = false;
 
         ui->loginLabel->setText(loginString);
         ui->passwordLabel->setText(passString);
-
-        ui->showButton->setIcon(QIcon(isDarkTheme(this) ? ":/icons/light/icon_hide_light" : ":/icons/dark/icon_hide_dark"));
     }
     else
     {
         ui->loginLabel->setText("********");
         ui->passwordLabel->setText("********");
-        isObfuscated = true;
-
-        ui->showButton->setIcon(QIcon(isDarkTheme(this) ? ":/icons/light/icon_show_light" : ":/icons/dark/icon_show_dark"));
+        obfuscated = true;
     }
 }
 
+//TODO signal parameters
 void DataEntryWidget::onDeleteButtonClicked()
 {
     QListWidget *listWidget = findlistWidget(this);
@@ -117,20 +109,4 @@ void DataEntryWidget::onDeleteButtonClicked()
     }
 
     emit syncRequested();
-}
-
-void DataEntryWidget::onThemeChanged()
-{
-    if(this->palette().color(QPalette::Window).lightness() < 128)
-    {
-        ui->showButton->setIcon(QIcon(isObfuscated ? ":/icons/light/icon_show_light" : ":/icons/light/icon_hide_light"));
-
-        ui->deleteButton->setIcon(QIcon(":/icons/light/icon_delete_light"));
-    }
-    else
-    {
-        ui->showButton->setIcon(QIcon(isObfuscated ? ":/icons/dark/icon_show_dark" : ":/icons/dark/icon_hide_dark"));
-
-        ui->deleteButton->setIcon(QIcon(":/icons/dark/icon_delete_dark"));
-    }
 }
