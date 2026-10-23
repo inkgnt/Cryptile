@@ -19,6 +19,7 @@ SetupView::SetupView(QWidget *parent)
     toggleButton2 = new QToolButton(ui->confirmPasswordLineEdit);
 
     toggleButton1->setCursor(Qt::ArrowCursor);
+    toggleButton1->setCheckable(true);
     toggleButton1->setIcon(QIcon(new ThemedIconEngine("show", "hide")));
     toggleButton1->setFixedSize(25, 25);
     toggleButton1->setStyleSheet(R"(
@@ -33,6 +34,7 @@ SetupView::SetupView(QWidget *parent)
     )");
 
     toggleButton2->setCursor(Qt::ArrowCursor);
+    toggleButton2->setCheckable(true);
     toggleButton2->setIcon(QIcon(new ThemedIconEngine("show", "hide")));
     toggleButton2->setFixedSize(25, 25);
     toggleButton2->setStyleSheet(R"(

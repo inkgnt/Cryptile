@@ -22,6 +22,7 @@ UnlockView::UnlockView(QWidget *parent)
 
     toggleButton = new QToolButton(ui->passwordLineEdit);
     toggleButton->setCursor(Qt::ArrowCursor);
+    toggleButton->setCheckable(true);
     toggleButton->setIcon(QIcon(new ThemedIconEngine("show", "hide")));
     toggleButton->setFixedSize(25, 25);
     toggleButton->setStyleSheet(R"(
