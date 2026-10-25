@@ -9,6 +9,13 @@
 
 #include <QLineEdit>
 
+
+namespace {
+    constexpr auto idRole = Qt::UserRole;
+    constexpr auto nonSensitiveDataRole = Qt::UserRole + 1;
+}
+
+
 VaultView::VaultView(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::VaultView)
@@ -16,24 +23,24 @@ VaultView::VaultView(QWidget *parent)
     ui->setupUi(this);
 
     ui->searchLine->addAction(QIcon(new ThemedIconEngine("search")), QLineEdit::LeadingPosition);
-    ui->addPasswordButton->setIcon(QIcon(new ThemedIconEngine("add")));
-    ui->deletePasswordButton->setIcon(QIcon(new ThemedIconEngine("delete")));
+    ui->addEntryButton->setIcon(QIcon(new ThemedIconEngine("add")));
+    ui->deleteEntryButton->setIcon(QIcon(new ThemedIconEngine("delete")));
     ui->lockButton->setIcon(QIcon(new ThemedIconEngine("lock")));
     ui->importButton->setIcon(QIcon(new ThemedIconEngine("import")));
     ui->exportButton->setIcon(QIcon(new ThemedIconEngine("export")));
     ui->settingsButton->setIcon(QIcon(new ThemedIconEngine("settings")));
 
-    loadDataToList(QString());
-
-    connect(ui->searchLine, &QLineEdit::textChanged, this, &VaultView::loadDataToList);
-    connect(ui->addPasswordButton, &QPushButton::clicked, this, &VaultView::onAddPasswordButtonClicked);
-    connect(ui->deletePasswordButton, &QPushButton::clicked, this, &VaultView::onDeletePasswordButtonClicked);
-    connect(ui->lockButton, &QPushButton::clicked, this, &VaultView::onLockButtonClicked); //TODO lambda
+    connect(ui->searchLine, &QLineEdit::textChanged, this, &VaultView::applyFilter);
+    connect(ui->addEntryButton, &QPushButton::clicked, this, &VaultView::onAddEntryButtonClicked);
+    connect(ui->deleteEntryButton, &QPushButton::clicked, this, &VaultView::onDeleteEntryButtonClicked);
+    connect(ui->lockButton, &QPushButton::clicked, this, &VaultView::lockRequested);
     connect(ui->importButton, &QPushButton::clicked, this, &VaultView::onImportButtonClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &VaultView::onExportButtonClicked);
     connect(ui->settingsButton, &QPushButton::clicked, this, &VaultView::onSettingsButtonClicked);
 
     ui->searchLine->setPlaceholderText("Search:");
+
+    loadDataToList();
 }
 
 VaultView::~VaultView()
@@ -42,34 +49,22 @@ VaultView::~VaultView()
     delete ui;
 }
 
-void VaultView::onAddPasswordButtonClicked()
+void VaultView::onAddEntryButtonClicked()
 {
-    auto pw = new DataForm;
-    auto d = new Dialog(pw, this);
-    d->exec();
-
-    loadDataToList(QString());
+    Dialog d (new DataForm, this);
+    if (d.exec() == QDialog::Accepted)
+        loadDataToList();
 }
 
-void VaultView::onDeletePasswordButtonClicked()
+void VaultView::onDeleteEntryButtonClicked()
 {
     QListWidgetItem *selectedItem = ui->listWidget->currentItem();
     if (!selectedItem) return;
 
-    int id = selectedItem->data(Qt::UserRole).toInt();
+    qint64 id = selectedItem->data(Qt::UserRole).toLongLong();
 
-    if (DatabaseManager::instance().deleteRecord(id)) {
-        int row = ui->listWidget->row(selectedItem);
-        QListWidgetItem *item = ui->listWidget->takeItem(row);
-        delete item;
-    }
-
-    loadDataToList(QString());
-}
-
-void VaultView::onLockButtonClicked()
-{
-    emit lockRequested();
+    DatabaseManager::instance().deleteRecord(id);
+    loadDataToList();
 }
 
 void VaultView::onImportButtonClicked()
@@ -87,31 +82,29 @@ void VaultView::onSettingsButtonClicked()
     //
 }
 
-void VaultView::loadDataToList(const QString& filter)
+void VaultView::loadDataToList()
 {
     ui->listWidget->clear();
-    QList<DataRecord> records = DatabaseManager::instance().getAllRecords();
+    const QList<DataRecord> records = DatabaseManager::instance().getAllRecords();
 
-    for (DataRecord& record : records)
+    for (const DataRecord& record : records)
     {
-        if (!(filter.isEmpty()) )
-            continue;
-
         auto *widget = new DataEntryWidget(record, this);
 
-        //TODO
-        connect(widget, &DataEntryWidget::syncRequested, this, &VaultView::onSyncRequested);
-
         auto *item = new QListWidgetItem(ui->listWidget);
-        item->setData(Qt::UserRole, record.id);
+        item->setData(idRole, record.id);
+        item->setData(nonSensitiveDataRole, record.url);
         item->setSizeHint(widget->sizeHint());
 
-        ui->listWidget->addItem(item);
         ui->listWidget->setItemWidget(item, widget);
     }
 }
 
-void VaultView::onSyncRequested()
+void VaultView::applyFilter(const QString &filter)
 {
-    loadDataToList(QString());
+    for (int i = 0; i < ui->listWidget->count(); ++i) {
+        QListWidgetItem* item = ui->listWidget->item(i);
+        bool matches = filter.isEmpty() || item->data(nonSensitiveDataRole).toString().contains(filter, Qt::CaseInsensitive);
+        item->setHidden(!matches);
+    }
 }

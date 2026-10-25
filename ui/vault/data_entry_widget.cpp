@@ -3,27 +3,13 @@
 
 #include "crypto/crypto.h"
 #include "keymanager/keymanager.h"
-#include "storage/database_manager.h"
 #include "utils/theme.h"
 
 #include <QListWidget>
 #include <QMouseEvent>
 
 
-
-QListWidget* findlistWidget(QWidget* start)
-{
-    QWidget *p = start;
-    while (p)
-    {
-        if (auto lw = qobject_cast<QListWidget*>(p))
-            return lw;
-        p = p->parentWidget();
-    }
-    return nullptr;
-}
-
-DataEntryWidget::DataEntryWidget(DataRecord& record, QWidget *parent)
+DataEntryWidget::DataEntryWidget(const DataRecord& record, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::DataEntryWidget)
     , record(record)
@@ -38,11 +24,10 @@ DataEntryWidget::DataEntryWidget(DataRecord& record, QWidget *parent)
     ui->loginLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
     ui->passwordLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
 
-    connect(ui->showButton, &QPushButton::clicked, this, &DataEntryWidget::onShowButtonClicked);
-    connect(ui->deleteButton, &QPushButton::clicked, this, &DataEntryWidget::onDeleteButtonClicked);
-
+    ui->showButton->setCheckable(true);
     ui->showButton->setIcon(QIcon(new ThemedIconEngine("show", "hide")));
-    ui->deleteButton->setIcon(QIcon(new ThemedIconEngine("delete")));
+
+    connect(ui->showButton, &QPushButton::toggled, this, &DataEntryWidget::onShowButtonToggled);
 }
 
 DataEntryWidget::~DataEntryWidget()
@@ -50,9 +35,9 @@ DataEntryWidget::~DataEntryWidget()
     delete ui;
 }
 
-void DataEntryWidget::onShowButtonClicked()
+void DataEntryWidget::onShowButtonToggled(bool visible)
 {
-    if (obfuscated)
+    if (visible)
     {
         std::vector<std::uint8_t> ivLogin; ivLogin.assign(record.login.begin(), record.login.begin() + 16);
         std::vector<std::uint8_t> ivPass; ivPass.assign(record.password.begin(), record.password.begin() + 16);
@@ -65,10 +50,6 @@ void DataEntryWidget::onShowButtonClicked()
         QString loginString = QString::fromUtf8(reinterpret_cast<const char*>(plainLogin.data()), plainLogin.size());
         QString passString = QString::fromUtf8(reinterpret_cast<const char*>(plainPass.data()), plainPass.size());
 
-        ui->loginLabel->setText("********");
-        ui->passwordLabel->setText("********");
-        obfuscated = false;
-
         ui->loginLabel->setText(loginString);
         ui->passwordLabel->setText(passString);
     }
@@ -76,37 +57,5 @@ void DataEntryWidget::onShowButtonClicked()
     {
         ui->loginLabel->setText("********");
         ui->passwordLabel->setText("********");
-        obfuscated = true;
     }
-}
-
-//TODO signal parameters
-void DataEntryWidget::onDeleteButtonClicked()
-{
-    QListWidget *listWidget = findlistWidget(this);
-    if (!listWidget)
-        return;
-
-    QListWidgetItem *foundItem = nullptr;
-
-    for (int i = 0; i < listWidget->count(); ++i)
-    {
-        QListWidgetItem *item = listWidget->item(i);
-        if (listWidget->itemWidget(item) == this)
-        {
-            foundItem = item;
-            break;
-        }
-    }
-
-    if (foundItem)
-    {
-        int row = listWidget->row(foundItem);
-        listWidget->takeItem(row);
-        delete foundItem;
-
-        DatabaseManager::instance().deleteRecord(record.id);
-    }
-
-    emit syncRequested();
 }

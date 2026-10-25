@@ -12,17 +12,12 @@ class DataEntryWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit DataEntryWidget(DataRecord& record, QWidget *parent = nullptr);
+    explicit DataEntryWidget(const DataRecord& record, QWidget *parent = nullptr);
 
     ~DataEntryWidget();
 
-signals:
-    void syncRequested();
-
 private slots:
-    void onShowButtonClicked();
-
-    void onDeleteButtonClicked();
+    void onShowButtonToggled(bool visible);
 
 private:
     Ui::DataEntryWidget *ui;

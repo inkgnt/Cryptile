@@ -18,17 +18,17 @@ signals:
     void lockRequested();
 
 private slots:
-
-    void onAddPasswordButtonClicked();
-    void onDeletePasswordButtonClicked();
-    void onLockButtonClicked();
+    void onAddEntryButtonClicked();
+    void onDeleteEntryButtonClicked();
     void onImportButtonClicked();
     void onExportButtonClicked();
     void onSettingsButtonClicked();
-
-    void onSyncRequested();
-    void loadDataToList(const QString &text);
+    void applyFilter(const QString &filter);
 
 private:
     Ui::VaultView *ui;
+
+    QString m_filter;
+
+    void loadDataToList();
 };

@@ -40,7 +40,7 @@
 // TODO add table with users tags
 
 struct DataRecord { //TODO: migrate to DataRecord_v1
-    int id;
+    qint64 id;
     QString url;
     QByteArray login;
     QByteArray password;
