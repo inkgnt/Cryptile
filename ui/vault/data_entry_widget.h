@@ -24,6 +24,4 @@ private:
     Ui::DataEntryWidget *ui;
 
     DataRecord record;
-
-    bool obfuscated = true;
 };
