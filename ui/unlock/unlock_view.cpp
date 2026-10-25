@@ -1,16 +1,15 @@
 #include "unlock_view.h"
 #include "ui_unlock_view.h"
 
-
 #include "crypto/crypto.h"
 #include "keymanager/keymanager.h"
-#include <QFile>
-
 #include "utils/theme.h"
 
+#include <QFile>
 #include <QMessageBox>
 #include <QToolButton>
 #include <QHBoxLayout>
+
 
 UnlockView::UnlockView(QWidget *parent)
     : QWidget(parent)

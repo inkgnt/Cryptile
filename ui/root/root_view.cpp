@@ -5,6 +5,7 @@
 #include "keymanager/keymanager.h"
 #include "storage/database_manager.h"
 
+
 RootView::RootView(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::RootView)

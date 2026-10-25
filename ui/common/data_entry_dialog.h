@@ -2,8 +2,9 @@
 
 #include <QWidget>
 
+
 namespace Ui {
-class DataForm;
+    class DataForm;
 }
 
 class DataForm : public QWidget
@@ -20,4 +21,3 @@ private slots:
 private:
     Ui::DataForm *ui;
 };
-

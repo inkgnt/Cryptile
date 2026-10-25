@@ -7,8 +7,9 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 
+
 namespace Ui {
-class RootView;
+    class RootView;
 }
 
 class RootView : public QMainWindow

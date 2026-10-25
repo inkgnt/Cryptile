@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QToolButton>
 
+
 SetupView::SetupView(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::SetupView)

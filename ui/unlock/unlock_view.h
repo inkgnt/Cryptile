@@ -3,8 +3,9 @@
 #include <QWidget>
 #include <QToolButton>
 
+
 namespace Ui {
-class UnlockView;
+    class UnlockView;
 }
 
 class UnlockView : public QWidget

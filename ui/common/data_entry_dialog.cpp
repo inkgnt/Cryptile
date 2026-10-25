@@ -6,6 +6,7 @@
 #include "storage/database_manager.h"
 #include <QMessageBox>
 
+
 DataForm::DataForm(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::DataForm)
@@ -54,4 +55,3 @@ void DataForm::on_pushButton_clicked()
         }
     }
 }
-

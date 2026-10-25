@@ -3,8 +3,9 @@
 #include <QWidget>
 #include <QToolButton>
 
+
 namespace Ui {
-class SetupView;
+    class SetupView;
 }
 
 class SetupView : public QWidget
@@ -29,4 +30,3 @@ private:
     QToolButton *toggleButton1 = nullptr;
     QToolButton *toggleButton2 = nullptr;
 };
-
