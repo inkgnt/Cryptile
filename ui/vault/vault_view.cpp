@@ -38,8 +38,6 @@ VaultView::VaultView(QWidget *parent)
     connect(ui->exportButton, &QPushButton::clicked, this, &VaultView::onExportButtonClicked);
     connect(ui->settingsButton, &QPushButton::clicked, this, &VaultView::onSettingsButtonClicked);
 
-    ui->searchLine->setPlaceholderText("Search:");
-
     loadDataToList();
 }
 

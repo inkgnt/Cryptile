@@ -9,6 +9,7 @@
         <file alias="import">icons/light/upload_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
         <file alias="show">icons/light/visibility_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
         <file alias="hide">icons/light/visibility_off_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="arrow_back">icons/light/arrow_back_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
     </qresource>
     <qresource prefix="/icons/dark">
         <file alias="add">icons/dark/add_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
@@ -20,5 +21,6 @@
         <file alias="import">icons/dark/upload_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
         <file alias="show">icons/dark/visibility_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
         <file alias="hide">icons/dark/visibility_off_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
+        <file alias="arrow_back">icons/dark/arrow_back_30dp_000000_FILL0_wght400_GRAD0_opsz24.svg</file>
     </qresource>
 </RCC>
