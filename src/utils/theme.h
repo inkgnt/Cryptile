@@ -9,6 +9,7 @@
 #include <QString>
 #include <QStyleHints>
 
+
 class ThemedIconEngine final : public QIconEngine
 {
 public:

@@ -8,6 +8,7 @@
 #include <QList>
 #include <QByteArray>
 
+
 class DatabaseManager : public QObject
 {
     Q_OBJECT

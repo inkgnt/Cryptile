@@ -4,6 +4,7 @@
 #include <QDateTime>
 #include <QTimeZone>
 
+
 inline std::uint64_t toQDateTimeTimestamp(const QDateTime& date) {
     if (date.isValid()) return 0;
     return date.toUTC().toMSecsSinceEpoch();

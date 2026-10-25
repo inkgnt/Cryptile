@@ -1,6 +1,7 @@
 #include "dialog.h"
 #include "ui_dialog.h"
 
+
 Dialog::Dialog(QWidget *childWidget, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Dialog)
@@ -9,11 +10,8 @@ Dialog::Dialog(QWidget *childWidget, QWidget *parent)
     layout = new QVBoxLayout(this);
 
     layout->addWidget(childWidget);
-    //childWidget->setParent(this);
-    setLayout(layout);
 
-    //connect(childWidget, &QWidget::destroyed, this, &QDialog::accept);
-    //connect(childWidget, &QWidget::destroyed, this, &QDialog::reject);
+    setLayout(layout);
 }
 
 Dialog::~Dialog()

@@ -12,7 +12,6 @@
 #include <cstring>
 
 
-//todo debug metrics
 class SecureBuffer
 {
 public:

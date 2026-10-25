@@ -6,6 +6,7 @@
 #include <openssl/aes.h>
 #include <openssl/rand.h>
 
+
 std::vector<std::uint8_t> encryptAES256(const std::vector<std::uint8_t>& plaintext, const std::vector<std::uint8_t>& key, const std::vector<std::uint8_t>& iv)
 {
     std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)> ctx(EVP_CIPHER_CTX_new(), &EVP_CIPHER_CTX_free); //added RAII
@@ -157,4 +158,3 @@ std::vector<std::uint8_t> generateIV()
 
     return IV;
 }
-

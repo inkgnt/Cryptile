@@ -2,8 +2,9 @@
 
 #include <QWidget>
 
+
 namespace Ui {
-class VaultView;
+    class VaultView;
 }
 
 class VaultView : public QWidget

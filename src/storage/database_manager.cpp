@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFile>
 
+
 DatabaseManager& DatabaseManager::instance()
 {
     static DatabaseManager instance;

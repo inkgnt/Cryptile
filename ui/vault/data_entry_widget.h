@@ -3,8 +3,9 @@
 #include "storage/data_record.h"
 #include <QWidget>
 
+
 namespace Ui {
-class DataEntryWidget;
+    class DataEntryWidget;
 }
 
 class DataEntryWidget : public QWidget
