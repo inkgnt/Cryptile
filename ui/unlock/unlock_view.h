@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QWidget>
-#include <QToolButton>
 
 
 namespace Ui {
@@ -24,7 +23,4 @@ private slots:
 
 private:
     Ui::UnlockView *ui;
-
-    bool isPasswordVisible = false;
-    QToolButton *toggleButton = nullptr;
 };

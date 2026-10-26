@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QWidget>
-#include <QToolButton>
 
 
 namespace Ui {
@@ -24,9 +23,4 @@ private slots:
 
 private:
     Ui::SetupView *ui;
-
-    bool isFirstPasswordVisible = false;
-    bool isSecondPasswordVisible = false;
-    QToolButton *toggleButton1 = nullptr;
-    QToolButton *toggleButton2 = nullptr;
 };

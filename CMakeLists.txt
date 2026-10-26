@@ -54,6 +54,8 @@ add_executable(${PROJECT_NAME}
 
     resources/resource.qrc
     src/utils/theme.h
+    ui/common/widget_utils.h
+    ui/common/widget_utils.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

@@ -3,12 +3,9 @@
 
 #include "crypto/crypto.h"
 #include "keymanager/keymanager.h"
-#include "utils/theme.h"
+#include "common/widget_utils.h"
 
-#include <QFile>
 #include <QMessageBox>
-#include <QToolButton>
-#include <QHBoxLayout>
 
 
 UnlockView::UnlockView(QWidget *parent)
@@ -19,31 +16,7 @@ UnlockView::UnlockView(QWidget *parent)
 
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 
-    toggleButton = new QToolButton(ui->passwordLineEdit);
-    toggleButton->setCursor(Qt::ArrowCursor);
-    toggleButton->setCheckable(true);
-    toggleButton->setIcon(QIcon(new ThemedIconEngine("show", "hide")));
-    toggleButton->setFixedSize(25, 25);
-    toggleButton->setStyleSheet(R"(
-        QToolButton {
-            border: none;
-            background-color: transparent;
-        }
-        QToolButton:hover {
-            background-color: rgba(150, 150, 150, 50);
-            border-radius: 4px;
-        }
-    )");
-
-    QHBoxLayout *layout = new QHBoxLayout(ui->passwordLineEdit);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->addStretch();
-    layout->addWidget(toggleButton);
-    ui->passwordLineEdit->setLayout(layout);
-
-    connect(toggleButton, &QToolButton::toggled, this, [this](bool visible) {
-        ui->passwordLineEdit->setEchoMode(visible ? QLineEdit::Normal : QLineEdit::Password);
-    });
+    addVisibilityToggle(ui->passwordLineEdit);
 
     connect(ui->loginButton, &QPushButton::clicked, this, &UnlockView::onloginButtonClicked);
 }
